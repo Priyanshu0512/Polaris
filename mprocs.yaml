@@ -1,0 +1,9 @@
+procs:
+  inngest:
+    cmd: ["npx", "--ignore-scripts=false", "inngest-cli@latest", "dev"]
+
+  next:
+    cmd: ["npm", "run", "dev"]
+
+  convex:
+    cmd: ["npx", "convex", "dev"]
