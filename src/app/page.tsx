@@ -1,29 +1,7 @@
 "use client";
 
-import { useMutation, useQuery } from "convex/react";
-import { api } from "../../convex/_generated/api";
-import { Button } from "@/components/ui/button";
+import { ProjectView } from "@/features/projects/components/project-view";
 
 export default function Home() {
-  const projects = useQuery(api.projects.get);
-  const createProject = useMutation(api.projects.create);
-  return (
-    <div>
-      <Button
-        onClick={() =>
-          createProject({
-            name: "new Project",
-          })
-        }
-      >
-        Add New
-      </Button>
-      {projects?.map((project) => (
-        <div key={project.name}>
-          <p>Owner Id: {project.ownerId}</p>
-          <p>Project name {project.name}</p>
-        </div>
-      ))}
-    </div>
-  );
+  return <ProjectView />;
 }
