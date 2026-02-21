@@ -8,6 +8,10 @@ export const useProjects = () => {
   return useQuery(api.projects.get);
 };
 
+export const useProject = (projectId: Id<"projects">) => {
+  return useQuery(api.projects.getbyId, { id: projectId });
+};
+
 export const useProjectPartial = (limit: number) => {
   return useQuery(api.projects.getPartial, { limit });
 };
@@ -29,6 +33,36 @@ export const useCreateProject = () => {
           newProject,
           ...existingProjects,
         ]);
+      }
+    },
+  );
+};
+
+export const useRenameProject = (projectId: Id<"projects">) => {
+  return useMutation(api.projects.rename).withOptimisticUpdate(
+    (localStorage, args) => {
+      const existingProject = localStorage.getQuery(api.projects.getbyId, {
+        id: projectId,
+      });
+      if (existingProject !== undefined && existingProject !== null) {
+        localStorage.setQuery(
+          api.projects.getbyId,
+          { id: projectId },
+          { ...existingProject, name: args.name, updatedAt: Date.now() },
+        );
+      }
+      const existingProjects = localStorage.getQuery(api.projects.get);
+
+      if (existingProjects !== undefined) {
+        localStorage.setQuery(
+          api.projects.get,
+          {},
+          existingProjects.map((project) => {
+            return project._id === args.id
+              ? { ...project, name: args.name, updatedAt: Date.now() }
+              : project;
+          }),
+        );
       }
     },
   );
