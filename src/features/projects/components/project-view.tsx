@@ -48,7 +48,7 @@ export const ProjectView = () => {
           <div className="flex justify-between gap-4 w-full items-center">
             <div className="flex items-center gap-2 w-full group/logo">
               <img
-                src="logo.svg"
+                src="/logo.svg"
                 alt="Polaris"
                 className="size-8 md:size-11.5"
               />
