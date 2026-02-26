@@ -6,6 +6,10 @@ export const useCreateFile = () => {
   return useMutation(api.files.createFile);
 };
 
+export const useUpdateFile = () => {
+  return useMutation(api.files.updateFile);
+};
+
 export const useCreateFolder = () => {
   return useMutation(api.files.createFolder);
 };
@@ -31,4 +35,12 @@ export const useFolderContents = ({
     api.files.getFolderContents,
     enabled ? { projectId, parentId } : "skip",
   );
+};
+
+export const useFile = (fileId: Id<"files"> | null) => {
+  return useQuery(api.files.getFile, fileId ? { id: fileId } : "skip");
+};
+
+export const useFilePath = (fileId: Id<"files"> | null) => {
+  return useQuery(api.files.getfilePath, fileId ? { id: fileId } : "skip");
 };
