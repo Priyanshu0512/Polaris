@@ -10,7 +10,6 @@ import { go } from "@codemirror/lang-go";
 import { rust } from "@codemirror/lang-rust";
 import { cpp } from "@codemirror/lang-cpp";
 import { yaml } from "@codemirror/lang-yaml";
-import { vue } from "@codemirror/lang-vue";
 import { sql } from "@codemirror/lang-sql";
 
 export const getLanguageExtension = (filename: string): Extension => {
@@ -43,10 +42,8 @@ export const getLanguageExtension = (filename: string): Extension => {
       return cpp();
     case "java":
       return java();
-    case "yaml":
+    case "yml":
       return yaml();
-    case "vue":
-      return vue();
     case "sql":
       return sql();
     default:
