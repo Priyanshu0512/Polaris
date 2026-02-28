@@ -41,7 +41,7 @@ If the instruction is unclear or cannot be applied, return the original code unc
 
 export async function POST(request: Request) {
   try {
-    const userId = await auth();
+    const { userId } = await auth();
     const { selectedCode, fullCode, instruction } = await request.json();
 
     if (!userId) {
@@ -71,7 +71,7 @@ export async function POST(request: Request) {
             });
 
             if (result.markdown) {
-              return `doc url="${url}">\n${result.markdown}\n</doc>`;
+              return `<doc url="${url}">\n${result.markdown}\n</doc>`;
             }
             return null;
           } catch (error) {
@@ -88,7 +88,7 @@ export async function POST(request: Request) {
     }
 
     const prompt = QUICK_EDIT_PROMPT.replace("{selectedCode}", selectedCode)
-      .replace("{fullCode", fullCode || "")
+      .replace("{fullCode}", fullCode || "")
       .replace("{instruction}", instruction)
       .replace("{documentation}", documentationContext);
 
