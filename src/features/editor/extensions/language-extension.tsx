@@ -42,6 +42,7 @@ export const getLanguageExtension = (filename: string): Extension => {
       return cpp();
     case "java":
       return java();
+    case "yaml":
     case "yml":
       return yaml();
     case "sql":
