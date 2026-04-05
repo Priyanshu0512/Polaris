@@ -46,6 +46,33 @@ export async function POST(request: Request) {
 
   const projectId = conversation.projectId;
 
+  const proccessingMessages = await convex.query(
+    api.system.getProcessingMessages,
+    {
+      internalKey,
+      projectId,
+    },
+  );
+
+  if (proccessingMessages.length > 0) {
+    await Promise.all(
+      proccessingMessages.map(async (msg) => {
+        await inngest.send({
+          name: "message/cancel",
+          data: {
+            messageId: msg._id,
+          },
+        });
+
+        await convex.mutation(api.system.updatedMessageStatus, {
+          internalKey,
+          messageId: msg._id,
+          status: "cancelled",
+        });
+      }),
+    );
+  }
+
   await convex.mutation(api.system.createMessage, {
     internalKey,
     conversationId: conversationId as Id<"conversations">,
@@ -68,6 +95,9 @@ export async function POST(request: Request) {
     name: "message/sent",
     data: {
       messageId: assistantMessageId,
+      conversationId,
+      projectId,
+      message,
     },
   });
 
